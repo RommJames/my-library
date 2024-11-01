@@ -36,7 +36,7 @@
                     <option value="finished">Finished</option>
                 </select>        
                 <label for="input-current-page" class="in-progress-page">Current Page: </label>
-                <input type="number" id="input-current-page" min="0" required class="in-progress-page">                
+                <input type="number" id="input-current-page" value="0" min="0" required class="in-progress-page">                
             </div>            
             <div class="modal-btns">
                 <button type="button" id="close-modal-btn" class="red-btn">
@@ -74,14 +74,14 @@
                             </label>
                         </button>
                     </li>
-                    <!-- <li>
-                        <button id="list-view">
-                            <label for="">
+                    <li>
+                        <button id="remove-book-btn" class="red-btn">
+                            <label for="remove-book-btn">
                                 <img src="media/icons/list-view.svg" alt="add-button">     
-                                <span>List View</span>
+                                <span>Delete All</span>
                             </label>                          
                         </button>
-                    </li> -->
+                    </li>
                     <!-- NOTE: Use radio button for toggle display -->
                     <!-- <li>
                         <button id="add-book">
@@ -95,65 +95,7 @@
             </nav>
         </header>
         <main>
-            <div class="card-list">
-                <div class="card-title">
-                    <b>Title: </b>
-                    <span>Sample Title</span>
-                </div>
-                <div class="card-author">
-                    <b>Author: </b>
-                    <span>Sample Author</span>
-                </div>
-                <div class="card-total-pages">
-                    <b>Total Pages:</b>
-                    <span>1200</span>
-                </div>
-                <div class="card-status">
-                    <b>Status: </b>
-                    <select class="card-book-status">
-                        <option value="not-read">Not Read</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="finished">Finished</option>
-                    </select>
-                </div>
-                <div class="modal-btns">
-                    <button type="button" id="remove-btn" class="red-btn">
-                        <label for="close-modal">
-                            <span>Remove</span>
-                        </label>            
-                    </button>   
-                </div>
-            </div>
-            <div class="card-list">
-                <div class="card-title">
-                    <b>Title: </b>
-                    <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius minus assumenda, ad voluptatum laborum aut repudiandae earum exercitationem illum, amet, perspiciatis magnam cupiditate. Dolorem dolor atque amet expedita. Enim, nobis.</span>
-                </div>
-                <div class="card-author">
-                    <b>Author: </b>
-                    <span>Sample Author</span>
-                </div>
-                <div class="card-total-pages">
-                    <b>Total Pages:</b>
-                    <span>1200</span>
-                </div>
-                <div class="card-status">
-                    <b>Status: </b>
-                    <select class="card-book-status">
-                        <option value="not-read">Not Read</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="finished">Finished</option>
-                    </select>
-                </div>
-                <div class="modal-btns">
-                    <button type="button" id="remove-btn" class="red-btn">
-                        <label for="close-modal">
-                            <span>Remove</span>
-                        </label>            
-                    </button>   
-                </div>
-            </div>
-            
+                        
         </main>
         <footer>
             <a href="https://rommjames.github.io/About-Me/" target="_blank">
@@ -162,5 +104,6 @@
             <p>&copy; 2024 RommJames. All rights reserved.</p>
         </footer>
     </div>
+<script src="script.js"></script>
 </body>
 </html>
