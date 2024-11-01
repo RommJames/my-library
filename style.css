@@ -5,8 +5,11 @@
     --primary-color: #255fa1;
     --secondary-color: #90caf9;
     --background-color: #F5F7FA;
+    --on-progrss: rgb(255, 253, 128);
+    --green: rgb(156, 240, 156);
     --text-color: #333333;
     --accent-color: #D0021B;
+    --accent-color-secondary: #f1929d;
     --box-shadow-default:  0px 0px 10px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -90,45 +93,60 @@ img[src$=".svg"]{
 }
 
 /* Set Button and Navbar*/
-nav{
-    align-self: flex-end;
+button label{
+    display: flex;
+    align-items: center;
+    gap: 5px;   
+    padding: 5px 10px; 
 }
+
 ul{
+    padding: 0;
     display: flex;    
+    align-items: center;
     list-style: none;
-    gap: 5px;
+    gap: 5px;    
 }
-nav button{
+
+button{
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 5px;
+    padding: 0;
     font-weight: 700;
     outline: none;
-    border: none;    
-    padding: 5px 10px;
+    border: none;        
     border-radius: 5px;
     cursor: pointer;
     background-color: var(--primary-color);    
 }
 
-nav button:hover{
+button:hover{
     background-color: var(--secondary-color);
     box-shadow: var(--box-shadow-default);
     transform: scale(0.9) translateY(-5px);
 }
 
-nav button:hover span, nav button:hover img{
+button:hover span, nav button:hover img{
     filter: none;
     color: var(--text-color);
 }
 
-nav span{
+button span{
     color: var(--background-color);
 }
 
-nav img{
+button img{
     filter: invert();
+}
+
+.red-btn{
+    background-color: var(--accent-color);
+}
+
+.red-btn:hover{
+    background-color: var(--accent-color-secondary);    
 }
 
 /* header */
@@ -136,6 +154,7 @@ header{
     /* position: fixed;
     right: 0;
     left: 0; */
+    gap: 15px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -148,6 +167,8 @@ header{
 
 #header-logo{
     display: flex;
+    justify-content: center;
+    text-align: center;
     align-items: center;
     font-size: 0.7rem;
     gap: 15px;
@@ -158,6 +179,97 @@ main{
     background-color: var(--background-color);
     height: 100%;
     overflow-y: scroll;
+}
+
+/* Dialog / Modal / Add Book Container */
+#add-book-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #3333333f;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+
+form{
+    display: inline-block;
+    background-color: var(--background-color);
+    padding: 5px solid red;
+    width: 400px;
+    padding: 15px;
+    border-radius: 15px;
+    margin: 15px;
+}
+
+.input-box{    
+    display: grid;
+    grid-template-columns: 1fr 1fr;    
+    margin: 5px 0px;
+}
+
+.input-box label{
+    font-weight: 800;
+}
+
+.modal-btns{
+    padding-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.in-progress-page{
+    display: none;
+}
+
+#book-status:has(option[value="in-progress"]:checked) ~ .in-progress-page{
+    display: grid;
+}
+
+#book-status{
+    width: 100%;
+    padding: 5px;
+}
+
+option[value="not-read"]{
+    background-color: var(--accent-color-secondary);    
+}
+
+option[value="in-progress"]{
+    background-color: var(--on-progrss);    
+}
+
+option[value="finished"]{
+    background-color: var(--green);    
+}
+
+/* Toggle Button */
+input[name^="toggle"]{
+    position: absolute;
+    appearance: none;
+}
+
+#close-modal:checked ~ #add-book-container{
+    transform: scale(0);
+}
+
+#open-modal:checked ~ #add-book-container{
+    transform: scale(1);
+}
+
+button *{
+    cursor: pointer;
+}
+
+.modal-btns{
+    display: flex;
+    gap: 5px;
+    margin: 5px;
 }
 
 /* footer */
