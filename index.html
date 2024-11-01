@@ -10,44 +10,47 @@
 <body>            
     <!-- For Toggle Modal -->
     <input type="radio" name="toggle-add-book" id="open-modal">
-    <input type="radio" name="toggle-add-book" id="close-modal">    
+    <input type="radio" name="toggle-add-book" id="close-modal" checked>    
+    <!-- For toggle display -->
     <!-- Modal -->
     <div id="add-book-container">          
         <form>
+            <h1>Add New Book</h1>
             <div class="input-box">
-                <label for="">Title</label>
-                <input type="text" required>
-            </div>
-            <div class="input-box">
-                <label for="">Author</label>
-                <input type="text" id="" required>
+                <label for="input-title">Title: </label>
+                <input type="text" id="input-title" required>
             </div>
             <div class="input-box">
-                <label for="">Number of Pages</label>
-                <input type="number" id="" min="0" required>
+                <label for="input-author">Author: </label>
+                <input type="text" id="input-author" required>
             </div>
-            <select id="book-status">
-                <option value="not-read">Not Read</option>
-                <option value="in-progress">In Progress</option>
-                <option value="finished">Finished</option>
-            </select>
-            <div class="input-box in-progress-page">
-                <label for="">Current Page</label>
-                <input type="number" id="" min="0" required>
+            <div class="input-box">
+                <label for="input-pages">Number of Pages: </label>
+                <input type="number" id="input-pages" min="0" required>
             </div>
+            <div class="input-box" id="status-box">
+                <label for="book-status">Status: </label>
+                <select id="book-status">
+                    <option value="not-read">Not Read</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="finished">Finished</option>
+                </select>        
+                <label for="input-current-page" class="in-progress-page">Current Page: </label>
+                <input type="number" id="input-current-page" min="0" required class="in-progress-page">                
+            </div>            
             <div class="modal-btns">
                 <button type="button" id="close-modal-btn" class="red-btn">
                     <label for="close-modal">
                         <span>Close</span>
                     </label>            
                 </button>    
-                <button type="button">
-                    <label>
-                        <span>Submit</span>
+                <button type="button" id="add-book-btn">
+                    <label for="add-book-btn">
+                        <span>Add Book</span>
                     </label>            
                 </button>           
-                <button type="reset">
-                    <label>
+                <button type="reset" id="reset-btn">
+                    <label for="reset-btn">
                         <span>Clear All Inputs</span>
                     </label>            
                 </button>    
@@ -71,27 +74,85 @@
                             </label>
                         </button>
                     </li>
-                    <li>
+                    <!-- <li>
                         <button id="list-view">
                             <label for="">
                                 <img src="media/icons/list-view.svg" alt="add-button">     
                                 <span>List View</span>
                             </label>                          
                         </button>
-                    </li>
+                    </li> -->
                     <!-- NOTE: Use radio button for toggle display -->
-                    <li>
+                    <!-- <li>
                         <button id="add-book">
                             <label for="">
                                 <img src="media/icons/card-view.svg" alt="add-button">     
                             <span>Card View</span>
                             </label>
                         </button>
-                    </li>
+                    </li> -->
                 </ul>
             </nav>
         </header>
         <main>
+            <div class="card-list">
+                <div class="card-title">
+                    <b>Title: </b>
+                    <span>Sample Title</span>
+                </div>
+                <div class="card-author">
+                    <b>Author: </b>
+                    <span>Sample Author</span>
+                </div>
+                <div class="card-total-pages">
+                    <b>Total Pages:</b>
+                    <span>1200</span>
+                </div>
+                <div class="card-status">
+                    <b>Status: </b>
+                    <select class="card-book-status">
+                        <option value="not-read">Not Read</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="finished">Finished</option>
+                    </select>
+                </div>
+                <div class="modal-btns">
+                    <button type="button" id="remove-btn" class="red-btn">
+                        <label for="close-modal">
+                            <span>Remove</span>
+                        </label>            
+                    </button>   
+                </div>
+            </div>
+            <div class="card-list">
+                <div class="card-title">
+                    <b>Title: </b>
+                    <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius minus assumenda, ad voluptatum laborum aut repudiandae earum exercitationem illum, amet, perspiciatis magnam cupiditate. Dolorem dolor atque amet expedita. Enim, nobis.</span>
+                </div>
+                <div class="card-author">
+                    <b>Author: </b>
+                    <span>Sample Author</span>
+                </div>
+                <div class="card-total-pages">
+                    <b>Total Pages:</b>
+                    <span>1200</span>
+                </div>
+                <div class="card-status">
+                    <b>Status: </b>
+                    <select class="card-book-status">
+                        <option value="not-read">Not Read</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="finished">Finished</option>
+                    </select>
+                </div>
+                <div class="modal-btns">
+                    <button type="button" id="remove-btn" class="red-btn">
+                        <label for="close-modal">
+                            <span>Remove</span>
+                        </label>            
+                    </button>   
+                </div>
+            </div>
             
         </main>
         <footer>

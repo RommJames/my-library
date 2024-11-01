@@ -179,7 +179,49 @@ main{
     background-color: var(--background-color);
     height: 100%;
     overflow-y: scroll;
+    padding: 20px 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));        
+    /* display: flex;
+    flex-wrap: wrap; */
+    align-content: flex-start;
+    /* justify-items: flex-start; */
+    gap: 20px;    
 }
+
+
+/* Card */
+.card-list{
+    display: flex;           
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px;
+    background-color: white;
+    box-shadow: var(--box-shadow-default);
+    border-radius: 15px;
+    /* width: 350px; */
+    height: 220px;
+}
+
+.card-list > [class*="card"]{
+    display: grid;
+    grid-template-columns: 0.8fr 1fr;
+    font-size: 1.3rem;    
+}
+
+.card-list b{
+    font-weight: 500;
+    font-style: italic;
+}
+
+.card-list span{
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
 
 /* Dialog / Modal / Add Book Container */
 #add-book-container{
@@ -203,16 +245,23 @@ form{
     padding: 15px;
     border-radius: 15px;
     margin: 15px;
+    box-shadow: var(--box-shadow-default);
+}
+
+form h1{
+    text-align: center;
+    padding-bottom: 15px;
 }
 
 .input-box{    
     display: grid;
-    grid-template-columns: 1fr 1fr;    
-    margin: 5px 0px;
+    grid-template-columns: 1fr;    
+    margin: 10px 0px;
 }
 
 .input-box label{
-    font-weight: 800;
+    font-weight: 500;
+    font-style: italic;
 }
 
 .modal-btns{
@@ -223,12 +272,24 @@ form{
     align-items: center;
 }
 
+#reset-btn{
+    background-color: #6e6e6ed8;
+}
+
+#reset-btn:hover{
+    background-color: var(--background-color);
+}
+
 .in-progress-page{
     display: none;
 }
 
 #book-status:has(option[value="in-progress"]:checked) ~ .in-progress-page{
-    display: grid;
+    display: block;    
+}
+
+#status-box{
+    gap: 5px;
 }
 
 #book-status{
