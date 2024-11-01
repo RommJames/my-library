@@ -14,6 +14,8 @@ Welcome to **MyLibrary**, a simple yet powerful web application designed to help
 
 - **Update Reading Status:** Track your reading journey by changing the status of each book, ensuring you know exactly where you stand.
 
+- **Choose Display Style:** Select how you want your books to be displayed, either in a list style or card style (default), for a personalized viewing experience.
+
 - **Local Storage:** All your data is automatically saved locally, so you can access your library anytime without losing your progress.
 
 ## Technologies Used
