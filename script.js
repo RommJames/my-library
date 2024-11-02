@@ -14,7 +14,7 @@ const closeModalInput = document.querySelector("#close-modal");
 
 // Variables
 let myLibrary = [];
-let statusValues = ["Not Read", "In Progress", "Finished"];
+let statusValues = ["-- Select Status --", "Not Read", "In Progress", "Finished"];
 let id = 1;
 let getLocalMyLibrary;
 let retrieveLocalMyLibrary;
