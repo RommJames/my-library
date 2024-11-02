@@ -1,14 +1,17 @@
 // Get DOM
 const addBookBtn = document.querySelector("#add-book-btn");
+const removeAllBookBtn = document.querySelector("#remove-book-btn");
+
 const removeBookBtn = document.querySelector("#remove-book-btn");
 const inputTitle = document.querySelector("#input-title");
 const inputAuthor = document.querySelector("#input-author");
 const inputPages = document.querySelector("#input-pages");
 const inputStatus = document.querySelector("#book-status");
+const allRequiredInputs = document.querySelectorAll("input[required]");
 const main = document.querySelector("main");
 
 const closeModalInput = document.querySelector("#close-modal");
-const removeAllBookBtn = document.querySelector("#remove-book-btn");
+
 
 // Variables
 let myLibrary = [];
@@ -30,16 +33,25 @@ removeAllBookBtn.addEventListener("click", deleteAllBook);
 
 // Function Defined
 
-function addBookToMyLibray(event){
-    closeModalInput.checked = true;
-    myLibrary.push(new Book(inputTitle.value, inputAuthor.value, inputPages.value, inputStatus.value))
-
-    inputTitle.value = "";
-    inputAuthor.value = "";
-    inputPages.value = "0";   
-    // inputProgressPage.value = "0";
-    retrieveAllBooks();        
-
+function addBookToMyLibray(event){        
+    // inputProgressPage.value = "0";   
+     
+    if(inputTitle.value.trim() != "" && inputAuthor.value.trim() != "" && inputPages.value.trim() != "" && inputPages.value > 0){
+        closeModalInput.checked = true;
+        myLibrary.push(new Book(inputTitle.value, inputAuthor.value, inputPages.value, inputStatus.value))
+        inputTitle.value = "";
+        inputAuthor.value = "";
+        inputPages.value = "";        
+        allRequiredInputs.forEach((input)=>{
+            input.classList.remove("invalid-input");
+        })   
+        
+        retrieveAllBooks();            
+    }else{
+        
+        formValidation();
+    }
+    
     event.preventDefault();
 }
 
@@ -85,7 +97,7 @@ function retrieveAllBooks(){
         labelStatusHTML.innerText = "Status: ";
         const valueStatusHTML = document.createElement("span");
         valueStatusHTML.textContent = getBook.status
-        cardTitleHTML.append(labelStatusHTML, valueStatusHTML);
+        cardStatusHTML.append(labelStatusHTML, valueStatusHTML);
 
         const modalBtnsHTML = document.createElement("div");
         modalBtnsHTML.setAttribute("class", "modal-btns");
@@ -106,7 +118,7 @@ function retrieveAllBooks(){
        
     });
 }
-
+// Need to Fix: when have 2 value in the array the recent value wont remove;
 // Delete Functions
 function deleteBook(index, cardList){    
     myLibrary.splice(index,1);
@@ -117,18 +129,28 @@ function deleteAllBook(){
     main.innerHTML = '';
     myLibrary.length = 0;
 }
-formValidation()
+// formValidation()
 // Validation
-let countValid = 0;
-function formValidation(){
-    
-    if(inputTitle.value.trim() == "" ){
-        inputTitle.classList.add("invalid-input");
-    }else{
-        inputTitle.classList.remove("invalid-input");
-    }
+function formValidation(){    
+    allRequiredInputs.forEach((input)=>{
+        if(input.getAttribute("type") != "number"){
 
-    
+            if(input.value.trim() == ""){            
+                input.classList.add("invalid-input");        
+            }else{
+                input.classList.remove("invalid-input");                
+            }   
+
+        }else{
+            if(input.value.trim() == "" || input.value <= 0){            
+                input.classList.add("invalid-input");        
+            }else{
+                input.classList.remove("invalid-input");                
+            }   
+        }             
+
+    })    
+
 }
 
 // Notes:
