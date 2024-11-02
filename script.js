@@ -17,6 +17,7 @@ let myLibrary = [];
 let id = 1;
 let getLocalMyLibrary;
 let retrieveLocalMyLibrary;
+let statusColor
 
 // LocalStorage;
 // localStorage.setItem("myLocalLibrary", JSON.stringify(myLibrary));
@@ -120,7 +121,22 @@ function retrieveAllBooks(){
         const labelStatusHTML = document.createElement("b"); //
         labelStatusHTML.innerText = "Status: ";
         const valueStatusHTML = document.createElement("span");
-        valueStatusHTML.textContent = getBook.status
+        valueStatusHTML.textContent = getBook.status;                   
+        switch(valueStatusHTML.textContent){
+            case "Not Read":
+                statusColor = "status-not-read"
+                break;
+            case "In Progress":
+                statusColor = "status-progress"
+                break;
+            case "Finished":
+                statusColor = "status-finished"
+                break;
+            default:
+                statusColor = "status-not-read"
+                break;                
+        }        
+        valueStatusHTML.setAttribute("class", `status-color ${statusColor}`)        
         cardStatusHTML.append(labelStatusHTML, valueStatusHTML);
 
         const modalBtnsHTML = document.createElement("div");
