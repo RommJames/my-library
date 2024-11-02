@@ -62,8 +62,12 @@ function retrieveAllBooks(){
 
     myLibrary.forEach(getBook => {
         // Get index position of the book
-        let bookPosition = myLibrary.indexOf(getBook)
-
+        let bookPosition = getBook.id;
+        // let bookPosition = getBook;
+        console.log(bookPosition);
+        console.log(getBook);
+        console.log(myLibrary);
+        
         const cardListHTML = document.createElement("div");
         cardListHTML.setAttribute("class", "card-list");
         
@@ -118,10 +122,14 @@ function retrieveAllBooks(){
        
     });
 }
-// Need to Fix: when have 2 value in the array the recent value wont remove;
+
 // Delete Functions
-function deleteBook(index, cardList){    
-    myLibrary.splice(index,1);
+function deleteBook(bookId, cardList){    
+    const index = myLibrary.findIndex(itemId => itemId.id === bookId);
+    
+    myLibrary.splice(index,1);    
+    // console.log(index)
+    
     cardList.remove();
 }
 
