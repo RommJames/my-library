@@ -14,6 +14,7 @@ const closeModalInput = document.querySelector("#close-modal");
 
 // Variables
 let myLibrary = [];
+let statusValues = ["Not Read", "In Progress", "Finished"];
 let id = 1;
 let getLocalMyLibrary;
 let retrieveLocalMyLibrary;
@@ -41,12 +42,14 @@ window.onload = function(){
     getLocalMyLibrary = localStorage.getItem('myLocalLibrary');
     retrieveLocalMyLibrary = JSON.parse(getLocalMyLibrary);
     myLibrary = retrieveLocalMyLibrary;
+    noDataAvailable()
     console.log(myLibrary);
 }
 
 
 // Function Defined
 
+// Add Book to Libray Array
 function addBookToMyLibray(event){        
     // inputProgressPage.value = "0";   
      
@@ -74,13 +77,29 @@ function addBookToMyLibray(event){
     event.preventDefault();
 }
 
+// No Library
+
+function noDataAvailable(){
+    if(retrieveLocalMyLibrary == null || retrieveLocalMyLibrary == ""){
+        main.innerHTML = 
+        `
+        <div class="no-data">
+            <h1> No Data Available </h1>
+            <p> Add some book to your personal library! </p>
+        </div>
+        `;
+        main.style.display = "block";        
+    }else{
+        main.style.display = "Grid";
+    }
+}
 // retrieveAllBooks()
 
 function retrieveAllBooks(){        
     main.innerHTML = "";    
     getLocalMyLibrary = localStorage.getItem('myLocalLibrary');
     retrieveLocalMyLibrary = JSON.parse(getLocalMyLibrary);
-
+    noDataAvailable();
     retrieveLocalMyLibrary.forEach(getBook => {
         // Get index position of the book
         let bookPosition = getBook.id;
@@ -122,21 +141,12 @@ function retrieveAllBooks(){
         labelStatusHTML.innerText = "Status: ";
         const valueStatusHTML = document.createElement("span");
         valueStatusHTML.textContent = getBook.status;                   
-        switch(valueStatusHTML.textContent){
-            case "Not Read":
-                statusColor = "status-not-read"
-                break;
-            case "In Progress":
-                statusColor = "status-progress"
-                break;
-            case "Finished":
-                statusColor = "status-finished"
-                break;
-            default:
-                statusColor = "status-not-read"
-                break;                
-        }        
-        valueStatusHTML.setAttribute("class", `status-color ${statusColor}`)        
+        switchStatusColor(valueStatusHTML.textContent);
+        valueStatusHTML.setAttribute("class", `status-color ${statusColor}`)     
+        valueStatusHTML.addEventListener("click", ()=>{
+            changeBookStatus(cardStatusHTML, valueStatusHTML, bookPosition);
+            // alert(bookPosition)
+        })
         cardStatusHTML.append(labelStatusHTML, valueStatusHTML);
 
         const modalBtnsHTML = document.createElement("div");
@@ -171,14 +181,22 @@ function deleteBook(bookId, cardList){
 
     //remove in HTML
     cardList.remove();
+
+    // Check if data is available
+    noDataAvailable()
+    retrieveAllBooks()
 }
 
 function deleteAllBook(){
     main.innerHTML = '';
     myLibrary.length = 0;
     localStorage.removeItem("myLocalLibrary");
+
+    // Check if data is available
+    noDataAvailable()
+    retrieveAllBooks()
 }
-// formValidation()
+
 // Validation
 function formValidation(){    
     allRequiredInputs.forEach((input)=>{
@@ -202,7 +220,63 @@ function formValidation(){
 
 }
 
-// Notes:
+// Change Book Status
+function changeBookStatus(getContainer, getSelf, bookId){
+    const selectHTML = document.createElement("select");
+    
+    statusValues.forEach(optionTxt => {
+        const option = document.createElement("option");
+        option.value = optionTxt;
+        option.textContent = optionTxt;
+        selectHTML.append(option);
+    });
+
+    getContainer.replaceChild(selectHTML, getSelf);
+    
+    selectHTML.addEventListener("change", function(){
+        const selectedValue = this.value;        
+        // alert(selectedValue);
+        // Update the Array    
+        const indexSelect = myLibrary.findIndex(itemId => itemId.id === bookId);    
+        console.log("index: ", indexSelect);
+        console.log(myLibrary[indexSelect]);
+                
+        // console.log(myLibrary);
+
+        const newStatus = document.createElement("span");
+        newStatus.textContent = selectedValue;
+        switchStatusColor(selectedValue);
+        newStatus.setAttribute("class", `status-color ${statusColor}`)     
+
+        newStatus.addEventListener('click', function() {
+            // Repeat the same process when span is clicked again
+            getContainer.replaceChild(selectHTML, newStatus);
+            // alert("hi")
+        });
+
+        getContainer.replaceChild(newStatus, selectHTML);
+        
+    })
+}
+
+// Dynamic Status Color
+function switchStatusColor(valueStatusHTML){
+    switch(valueStatusHTML){
+        case "Not Read":
+            statusColor = "status-not-read"
+            break;
+        case "In Progress":
+            statusColor = "status-progress"
+            break;
+        case "Finished":
+            statusColor = "status-finished"
+            break;
+        default:
+            statusColor = "status-not-read"
+            break;                
+    }  
+}
+// Note:
 // Use change event listener to prororrtype current pages
 
 // `
