@@ -240,7 +240,10 @@ function changeBookStatus(getContainer, getSelf, bookId){
         const indexSelect = myLibrary.findIndex(itemId => itemId.id === bookId);    
         console.log("index: ", indexSelect);
         console.log(myLibrary[indexSelect]);
-                
+        myLibrary[indexSelect].status = selectedValue;
+        console.log(myLibrary[indexSelect]);
+        // Update Local Storage
+        localStorage.setItem("myLocalLibrary", JSON.stringify(myLibrary));
         // console.log(myLibrary);
 
         const newStatus = document.createElement("span");
