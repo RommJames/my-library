@@ -12,10 +12,14 @@ const main = document.querySelector("main");
 
 const closeModalInput = document.querySelector("#close-modal");
 
-
 // Variables
 let myLibrary = [];
 let id = 1;
+let getLocalMyLibrary;
+let retrieveLocalMyLibrary;
+
+// LocalStorage;
+// localStorage.setItem("myLocalLibrary", JSON.stringify(myLibrary));
 
 // Object Constructor
 function Book(title, author, pages, status){    
@@ -30,6 +34,15 @@ function Book(title, author, pages, status){
 addBookBtn.addEventListener("click", addBookToMyLibray);
 removeAllBookBtn.addEventListener("click", deleteAllBook);
 
+// onload
+window.onload = function(){
+    retrieveAllBooks()
+    getLocalMyLibrary = localStorage.getItem('myLocalLibrary');
+    retrieveLocalMyLibrary = JSON.parse(getLocalMyLibrary);
+    myLibrary = retrieveLocalMyLibrary;
+    console.log(myLibrary);
+}
+
 
 // Function Defined
 
@@ -38,7 +51,12 @@ function addBookToMyLibray(event){
      
     if(inputTitle.value.trim() != "" && inputAuthor.value.trim() != "" && inputPages.value.trim() != "" && inputPages.value > 0){
         closeModalInput.checked = true;
+        // Add to the array MyLibrary
         myLibrary.push(new Book(inputTitle.value, inputAuthor.value, inputPages.value, inputStatus.value))
+        // Put it in the Local Storage
+        localStorage.setItem("myLocalLibrary", JSON.stringify(myLibrary));
+
+        // Clear Inputs
         inputTitle.value = "";
         inputAuthor.value = "";
         inputPages.value = "";        
@@ -59,8 +77,10 @@ function addBookToMyLibray(event){
 
 function retrieveAllBooks(){        
     main.innerHTML = "";    
+    getLocalMyLibrary = localStorage.getItem('myLocalLibrary');
+    retrieveLocalMyLibrary = JSON.parse(getLocalMyLibrary);
 
-    myLibrary.forEach(getBook => {
+    retrieveLocalMyLibrary.forEach(getBook => {
         // Get index position of the book
         let bookPosition = getBook.id;
         // let bookPosition = getBook;
@@ -125,17 +145,22 @@ function retrieveAllBooks(){
 
 // Delete Functions
 function deleteBook(bookId, cardList){    
+    // get index of the specific book id
     const index = myLibrary.findIndex(itemId => itemId.id === bookId);
-    
+    // remove the book
     myLibrary.splice(index,1);    
-    // console.log(index)
     
+    // update the local storage
+    localStorage.setItem("myLocalLibrary", JSON.stringify(myLibrary));
+
+    //remove in HTML
     cardList.remove();
 }
 
 function deleteAllBook(){
     main.innerHTML = '';
     myLibrary.length = 0;
+    localStorage.removeItem("myLocalLibrary");
 }
 // formValidation()
 // Validation
