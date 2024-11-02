@@ -309,6 +309,15 @@ option[value="finished"]{
     background-color: var(--green);    
 }
 
+.invalid-input{
+    border: 2px solid var(--accent-color);
+    border-radius: 5px;
+}
+
+.required{
+    color: var(--accent-color);
+}
+
 /* Toggle Button */
 input[name^="toggle"]{
     position: absolute;

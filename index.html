@@ -17,26 +17,26 @@
         <form>
             <h1>Add New Book</h1>
             <div class="input-box">
-                <label for="input-title">Title: </label>
-                <input type="text" id="input-title" required>
+                <label for="input-title">Title:  <span class="required">*</span></label>
+                <input type="text" id="input-title" placeholder="Enter Title..." required>
             </div>
             <div class="input-box">
-                <label for="input-author">Author: </label>
-                <input type="text" id="input-author" required>
+                <label for="input-author">Author:  <span class="required">*</span></label>
+                <input type="text" id="input-author" placeholder="Input Author..." required>
             </div>
             <div class="input-box">
-                <label for="input-pages">Number of Pages: </label>
-                <input type="number" id="input-pages" min="0" required>
+                <label for="input-pages">Number of Pages:  <span class="required">*</span></label>
+                <input type="number" id="input-pages" placeholder="0" min="0" required>
             </div>
             <div class="input-box" id="status-box">
-                <label for="book-status">Status: </label>
+                <label for="book-status">Status:  <span class="required">*</span></label>
                 <select id="book-status">
                     <option value="not-read">Not Read</option>
                     <option value="in-progress">In Progress</option>
                     <option value="finished">Finished</option>
                 </select>        
-                <label for="input-current-page" class="in-progress-page">Current Page: </label>
-                <input type="number" id="input-current-page" value="0" min="0" required class="in-progress-page">                
+                <!-- <label for="input-current-page" class="in-progress-page">Current Page:  <span class="required">*</span></label>
+                <input type="number" id="input-current-page" placeholder="0" min="0" required class="in-progress-page">                 -->
             </div>            
             <div class="modal-btns">
                 <button type="button" id="close-modal-btn" class="red-btn">
