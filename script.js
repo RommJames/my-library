@@ -296,22 +296,22 @@ function changeBookStatus(getContainer, getSelf, bookId, getCurrentPageHTML){
         console.log(myLibrary[indexSelect]);
 
 
-        const newStatus = document.createElement("span");
-        newStatus.textContent = selectedValue;
+        // const newStatus = document.createElement("span"); // No need to create instead call the getSelf to avoid bug ' - RommJames
+        getSelf.textContent = selectedValue;
 
         // Change Status Color
         switchStatusColor(selectedValue);        
-        newStatus.setAttribute("class", `status-color ${statusColor}`)     
+        getSelf.setAttribute("class", `status-color ${statusColor}`)     
         getCurrentPageHTML.setAttribute("class", `status-color ${statusColor}`) 
         
 
-        newStatus.addEventListener('click', function() {
+        getSelf.addEventListener('click', function() {
             // Repeat the same process when span is clicked again
-            getContainer.replaceChild(selectHTML, newStatus);
+            getContainer.replaceChild(selectHTML, getSelf);
             // alert("hi")
         });
 
-        getContainer.replaceChild(newStatus, selectHTML);
+        getContainer.replaceChild(getSelf, selectHTML);
         
         
         // Update Local Storage
@@ -320,8 +320,6 @@ function changeBookStatus(getContainer, getSelf, bookId, getCurrentPageHTML){
     })
 }
 
-// Not yet done
-// need more bug fixes
 // change current page for bookmark
 function changeCurrentPageHTML(getContainer, getSelf, bookId, getStatusHTML){
     const inputChangeCurrPage = document.createElement("input");
@@ -370,22 +368,22 @@ function changeCurrentPageHTML(getContainer, getSelf, bookId, getStatusHTML){
         myLibrary[indexSelect].currentPage = storeCurrData;
 
         // Create new element for dynamic change
-        const newCurrPage = document.createElement("span");
-        newCurrPage.textContent = storeCurrData;
+        // const newCurrPage = document.createElement("span"); // same with the status change evemt
+        getSelf.textContent = storeCurrData;
 
         // Change Status Color
         switchStatusColor(updateStatusData);        
-        newCurrPage.setAttribute("class", `status-color ${statusColor}`)     
+        getSelf.setAttribute("class", `status-color ${statusColor}`)     
         getStatusHTML.setAttribute("class", `status-color ${statusColor}`) 
         
 
-        newCurrPage.addEventListener('click', function() {
+        getSelf.addEventListener('click', function() {
             // Repeat the same process when span is clicked again
-            getContainer.replaceChild(inputChangeCurrPage, newCurrPage);
+            getContainer.replaceChild(inputChangeCurrPage, getSelf);
             inputChangeCurrPage.focus();
         });
 
-        getContainer.replaceChild(newCurrPage, inputChangeCurrPage);
+        getContainer.replaceChild(getSelf, inputChangeCurrPage);
 
         
         // Update Local Storage

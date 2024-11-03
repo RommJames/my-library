@@ -198,10 +198,11 @@ main{
     padding: 25px;
     background-color: white;
     box-shadow: var(--box-shadow-default);
-    border-radius: 15px;
+    border-radius: 10px;
     /* width: 350px; */
     height: 280px;
     gap: 5px;
+    border-left: 5px solid var(--primary-color);
 }
 
 .card-list > [class*="card"]{
