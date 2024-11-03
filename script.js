@@ -7,11 +7,11 @@ const inputTitle = document.querySelector("#input-title");
 const inputAuthor = document.querySelector("#input-author");
 const inputPages = document.querySelector("#input-pages");
 const inputStatus = document.querySelector("#book-status");
+const inputCurrentPage = document.querySelector("#input-current-page");
 const allRequiredInputs = document.querySelectorAll("input[required]");
 const main = document.querySelector("main");
 
 const closeModalInput = document.querySelector("#close-modal");
-
 // Variables
 let myLibrary = [];
 let statusValues = ["-- Select Status --", "Not Read", "In Progress", "Finished"];
@@ -19,17 +19,19 @@ let id = 1;
 let getLocalMyLibrary;
 let retrieveLocalMyLibrary;
 let statusColor
+let currentPageValue
 
 // LocalStorage;
 // localStorage.setItem("myLocalLibrary", JSON.stringify(myLibrary));
 
 // Object Constructor
-function Book(title, author, pages, status){    
+function Book(title, author, pages, status, currentPage){    
     this.id = id++;
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.status = status;    
+    this.currentPage = currentPage;
 }
 
 // Add Event Listener
@@ -52,18 +54,36 @@ window.onload = function(){
 // Add Book to Libray Array
 function addBookToMyLibray(event){        
     // inputProgressPage.value = "0";   
-     
+    // get current page value
+    currentPageValue = inputCurrentPage.value;     
+
     if(inputTitle.value.trim() != "" && inputAuthor.value.trim() != "" && inputPages.value.trim() != "" && inputPages.value > 0){
-        closeModalInput.checked = true;
+        closeModalInput.checked = true;        
+        // Validate Current Page
+        if(inputStatus.value == "Finished"){
+            currentPageValue = inputPages.value
+
+        }else if(inputStatus.value == "Not Read"){
+            currentPageValue = 0;
+
+        }else if(currentPageValue >= inputPages.value || currentPageValue < 0){
+            // alert(currentPageValue + "- Compare to input pages -" + inputPages.value)
+            currentPageValue = 0;            
+        }else{
+            // alert(currentPageValue)
+            currentPageValue = Math.floor(currentPageValue);            
+        }
+
         // Add to the array MyLibrary
-        myLibrary.push(new Book(inputTitle.value, inputAuthor.value, inputPages.value, inputStatus.value))
+        myLibrary.push(new Book(inputTitle.value, inputAuthor.value, inputPages.value, inputStatus.value, currentPageValue))
         // Put it in the Local Storage
         localStorage.setItem("myLocalLibrary", JSON.stringify(myLibrary));
-
+        
         // Clear Inputs
         inputTitle.value = "";
         inputAuthor.value = "";
         inputPages.value = "";        
+        inputCurrentPage.value = 1;
         allRequiredInputs.forEach((input)=>{
             input.classList.remove("invalid-input");
         })   
@@ -84,8 +104,8 @@ function noDataAvailable(){
         main.innerHTML = 
         `
         <div class="no-data">
-            <h1> No Data Available </h1>
-            <p> Add some book to your personal library! </p>
+            <h2> No Data Available </h2>
+            <p> It appears there are currently no books in your personal library. Start adding books now to effectively manage and grow your collection! </p>
         </div>
         `;
         main.style.display = "block";        
@@ -143,11 +163,27 @@ function retrieveAllBooks(){
         valueStatusHTML.textContent = getBook.status;                   
         switchStatusColor(valueStatusHTML.textContent);
         valueStatusHTML.setAttribute("class", `status-color ${statusColor}`)     
+        
+        cardStatusHTML.append(labelStatusHTML, valueStatusHTML);
+        
+        const currentPageHTML = document.createElement("div");
+        currentPageHTML.setAttribute("class", "card-page-bookmark");
+        const labelCurrentPageHTML = document.createElement("b");
+        labelCurrentPageHTML.innerText = "Current Page: ";
+        const valueCurrentPageHTML = document.createElement("span");
+        valueCurrentPageHTML.textContent = getBook.currentPage
+        valueCurrentPageHTML.setAttribute("class", `status-color ${statusColor}`)
+        currentPageHTML.append(labelCurrentPageHTML, valueCurrentPageHTML);
+
+        // Add Event Listener for change status
         valueStatusHTML.addEventListener("click", ()=>{
-            changeBookStatus(cardStatusHTML, valueStatusHTML, bookPosition);
+            changeBookStatus(cardStatusHTML, valueStatusHTML, bookPosition, valueCurrentPageHTML);
             // alert(bookPosition)
         })
-        cardStatusHTML.append(labelStatusHTML, valueStatusHTML);
+        valueCurrentPageHTML.addEventListener("click", ()=>{
+            changeCurrentPageHTML(currentPageHTML, valueCurrentPageHTML, bookPosition, valueStatusHTML);
+        })
+
 
         const modalBtnsHTML = document.createElement("div");
         modalBtnsHTML.setAttribute("class", "modal-btns");
@@ -164,7 +200,7 @@ function retrieveAllBooks(){
         modalBtnsHTML.appendChild(removeBtnHTML);
 
         main.append(cardListHTML);
-        cardListHTML.append(cardTitleHTML, cardAuthorHTML, cardTotalPagesHTML, cardStatusHTML, modalBtnsHTML);
+        cardListHTML.append(cardTitleHTML, cardAuthorHTML, cardTotalPagesHTML, cardStatusHTML, currentPageHTML,modalBtnsHTML);
        
     });
 }
@@ -221,7 +257,7 @@ function formValidation(){
 }
 
 // Change Book Status
-function changeBookStatus(getContainer, getSelf, bookId){
+function changeBookStatus(getContainer, getSelf, bookId, getCurrentPageHTML){
     const selectHTML = document.createElement("select");
     
     statusValues.forEach(optionTxt => {
@@ -232,24 +268,42 @@ function changeBookStatus(getContainer, getSelf, bookId){
     });
 
     getContainer.replaceChild(selectHTML, getSelf);
-    
+    selectHTML.focus();
     selectHTML.addEventListener("change", function(){
-        const selectedValue = this.value;        
-        // alert(selectedValue);
+        // get value
+        const selectedValue = this.value; 
+        // Get index position of the selected book
+        const indexSelect = myLibrary.findIndex(itemId => itemId.id === bookId);          
+        let tempCurrData = myLibrary[indexSelect].currentPage;
+        let tempTotalPage = myLibrary[indexSelect].pages;
+        let storeCurrData
+        
+        // Dynamic Current Page
+        if(selectedValue == "Finished"){
+            storeCurrData = tempTotalPage;
+        }else if(selectedValue == "In Progress"){
+            storeCurrData = tempCurrData;
+        }else{
+            storeCurrData = 0;
+        }        
+        getCurrentPageHTML.textContent = storeCurrData        
+        
         // Update the Array    
-        const indexSelect = myLibrary.findIndex(itemId => itemId.id === bookId);    
         console.log("index: ", indexSelect);
         console.log(myLibrary[indexSelect]);
-        myLibrary[indexSelect].status = selectedValue;
+        myLibrary[indexSelect].status = selectedValue; // Update Status
+        myLibrary[indexSelect].currentPage = storeCurrData;
         console.log(myLibrary[indexSelect]);
-        // Update Local Storage
-        localStorage.setItem("myLocalLibrary", JSON.stringify(myLibrary));
-        // console.log(myLibrary);
+
 
         const newStatus = document.createElement("span");
         newStatus.textContent = selectedValue;
-        switchStatusColor(selectedValue);
+
+        // Change Status Color
+        switchStatusColor(selectedValue);        
         newStatus.setAttribute("class", `status-color ${statusColor}`)     
+        getCurrentPageHTML.setAttribute("class", `status-color ${statusColor}`) 
+        
 
         newStatus.addEventListener('click', function() {
             // Repeat the same process when span is clicked again
@@ -259,8 +313,87 @@ function changeBookStatus(getContainer, getSelf, bookId){
 
         getContainer.replaceChild(newStatus, selectHTML);
         
+        
+        // Update Local Storage
+        localStorage.setItem("myLocalLibrary", JSON.stringify(myLibrary));
+        // console.log(myLibrary);
     })
 }
+
+// Not yet done
+// need more bug fixes
+// change current page for bookmark
+function changeCurrentPageHTML(getContainer, getSelf, bookId, getStatusHTML){
+    const inputChangeCurrPage = document.createElement("input");
+    inputChangeCurrPage.setAttribute("type", "number");
+    inputChangeCurrPage.value = getSelf.textContent;
+    inputChangeCurrPage.style.width = "100%";
+
+    getContainer.replaceChild(inputChangeCurrPage, getSelf);
+
+    inputChangeCurrPage.focus();
+
+    inputChangeCurrPage.addEventListener("blur", (e)=>{
+        const inputValue = e.target.value
+
+        // find position of the selected item
+        const indexSelect = myLibrary.findIndex(itemId => itemId.id === bookId);          
+        let tempCurrData = myLibrary[indexSelect].currentPage;
+        let tempTotalPage = myLibrary[indexSelect].pages;
+        let storeCurrData
+        let updateStatusData        
+        console.log(`"inputValueData: ${inputValue}" > "TempTotalPage: ${tempTotalPage}"`);
+        // Validation
+        if(+inputValue < 0){
+            storeCurrData = 0
+        }else if(+inputValue > +tempTotalPage){            
+            // alert(`"inputValueData: ${inputValue}" > "TempTotalPage: ${tempTotalPage}"`)
+            storeCurrData = 0
+        }else{
+            storeCurrData = inputValue;
+        }
+
+        // Dynamic Change of Status
+        if(+tempTotalPage == +inputValue){
+            getStatusHTML.textContent = "Finished";
+            updateStatusData = "Finished"
+        }else if(+inputValue >= 1 && +inputValue <= +tempTotalPage){
+            getStatusHTML.textContent = "In Progress";
+            updateStatusData = "In Progress"
+        }else{
+            getStatusHTML.textContent = "Not Read";
+            updateStatusData = "Not Read"
+        }
+
+        getStatusHTML.textContent = updateStatusData;
+        myLibrary[indexSelect].status = updateStatusData;
+        myLibrary[indexSelect].currentPage = storeCurrData;
+
+        // Create new element for dynamic change
+        const newCurrPage = document.createElement("span");
+        newCurrPage.textContent = storeCurrData;
+
+        // Change Status Color
+        switchStatusColor(updateStatusData);        
+        newCurrPage.setAttribute("class", `status-color ${statusColor}`)     
+        getStatusHTML.setAttribute("class", `status-color ${statusColor}`) 
+        
+
+        newCurrPage.addEventListener('click', function() {
+            // Repeat the same process when span is clicked again
+            getContainer.replaceChild(inputChangeCurrPage, newCurrPage);
+            inputChangeCurrPage.focus();
+        });
+
+        getContainer.replaceChild(newCurrPage, inputChangeCurrPage);
+
+        
+        // Update Local Storage
+        localStorage.setItem("myLocalLibrary", JSON.stringify(myLibrary));
+
+    })
+}
+
 
 // Dynamic Status Color
 function switchStatusColor(valueStatusHTML){
@@ -300,6 +433,7 @@ function switchStatusColor(valueStatusHTML){
 //         <b>Status: </b>
 //         <span class="card-book-status">${getBook.status}</span>
 //     </div>
+//      
 //     <div class="modal-btns">
 //         <button type="button" class="remove-btn red-btn">
 //             <label for="close-modal">

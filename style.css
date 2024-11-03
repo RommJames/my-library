@@ -200,7 +200,8 @@ main{
     box-shadow: var(--box-shadow-default);
     border-radius: 15px;
     /* width: 350px; */
-    height: 220px;
+    height: 280px;
+    gap: 5px;
 }
 
 .card-list > [class*="card"]{
@@ -281,11 +282,18 @@ form h1{
 }
 
 .in-progress-page{
-    display: none;
+    transform: scaleY(0);
+    opacity: 0;
+    transform-origin: bottom;
+    position: absolute;
+    transition: all 0.0s ease-in-out;
 }
 
-#book-status:has(option[value="in-progress"]:checked) ~ .in-progress-page{
-    display: block;    
+#book-status:has(option[value="In Progress"]:checked) ~ .in-progress-page{
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+    position: relative;
+    transform: scale(1); 
 }
 
 #status-box{
@@ -430,3 +438,5 @@ footer p {
     text-align: center;
     font-style: italic;
 }
+
+/* Current Page HTML */
