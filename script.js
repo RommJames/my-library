@@ -107,7 +107,7 @@ function noDataAvailable(){
             <h2> No Data Available </h2>
             <p> It appears there are currently no books in your personal library. Start adding books now to effectively manage and grow your collection! </p>
         </div>
-        `;
+        `;        
         main.style.display = "block";        
     }else{
         main.style.display = "Grid";
@@ -136,7 +136,8 @@ function retrieveAllBooks(){
         const labelTitleHTML = document.createElement("b"); //
         labelTitleHTML.innerText = "Title: ";
         const valueTitleHTML = document.createElement("span");
-        valueTitleHTML.textContent = getBook.title
+        valueTitleHTML.textContent = getBook.title;
+        valueTitleHTML.setAttribute("title", getBook.title);
         cardTitleHTML.append(labelTitleHTML,valueTitleHTML);
 
         const cardAuthorHTML = document.createElement("div");
@@ -144,7 +145,8 @@ function retrieveAllBooks(){
         const labelAuthorHTML = document.createElement("b"); //
         labelAuthorHTML.innerText = "Author: ";
         const valueAuthorHTML = document.createElement("span");
-        valueAuthorHTML.textContent = getBook.author
+        valueAuthorHTML.textContent = getBook.author;
+        valueAuthorHTML.setAttribute("title", getBook.author);
         cardAuthorHTML.append(labelAuthorHTML,valueAuthorHTML);
 
         const cardTotalPagesHTML = document.createElement("div");
@@ -410,8 +412,8 @@ function switchStatusColor(valueStatusHTML){
             break;                
     }  
 }
-// Note:
-// Use change event listener to prororrtype current pages
+
+
 
 // `
 // <div class="card-list">
