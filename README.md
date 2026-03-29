@@ -1,6 +1,8 @@
 # MyLibrary: A Personal Book Management System
 
-Welcome to **MyLibrary**, a simple yet powerful web application designed to help you manage your personal book collection. Built using vanilla HTML, CSS, and JavaScript, MyLibrary leverages array and object constructors to provide a seamless user experience.
+**MyLibrary** is a client-side web application that lets you build and manage your own personal book collection — right in the browser. Whether you're tracking books you've borrowed, purchased, or are currently reading, MyLibrary gives you a clean and intuitive interface to stay on top of your reading life. All data is persisted via the browser's **Local Storage**, so your library is always available without needing a backend or database.
+
+The project was built as a vanilla JavaScript exercise, showcasing core web fundamentals such as DOM manipulation, object-oriented design with constructors, and persistent client-side storage — no frameworks or libraries required.
 
 ## Features
 
@@ -20,9 +22,14 @@ Welcome to **MyLibrary**, a simple yet powerful web application designed to help
 
 ## Technologies Used
 
-- HTML
-- CSS
-- JavaScript
+| Technology | Purpose |
+|---|---|
+| **HTML5** | Semantic page structure and form elements |
+| **CSS3** | Styling, layout, and responsive design |
+| **JavaScript (ES6+)** | Application logic, DOM manipulation, and OOP via constructors |
+| **Web Storage API** | Client-side data persistence using `localStorage` |
+
+> No frameworks or external dependencies — built entirely with vanilla web technologies.
 
 ## Future Enhancements
 
